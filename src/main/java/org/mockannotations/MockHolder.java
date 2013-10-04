@@ -15,6 +15,7 @@
  */
 package org.mockannotations;
 
+import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -48,7 +49,7 @@ public class MockHolder {
     }
 
     public String getSourceName() {
-        return sourceField == null ? "" : sourceField.getName();
+        return isNull(sourceField) ? "" : sourceField.getName();
     }
 
     public void setMock(Object mock) {
@@ -64,7 +65,7 @@ public class MockHolder {
     }
 
     public String getName() {
-        return name == null ? "" : name;
+        return isNull(name) ? "" : name;
     }
 
     public List<Type> getGenericParameters() {

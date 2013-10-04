@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -141,10 +142,11 @@ public final class MockAnnotationReflectionUtils {
      * @return the generic parameters
      */
     public static List<Type> getGenericParameters(Field field) {
-        List<Type> genericParameters = new LinkedList<Type>();
+        List<Type> genericParameters = Collections.emptyList();
         Type genericType = field.getGenericType();
 
         if (genericType instanceof ParameterizedType) {
+            genericParameters = new LinkedList<Type>();
             ParameterizedType parameterizedType = (ParameterizedType) genericType;
             genericParameters.addAll(Arrays.asList(parameterizedType.getActualTypeArguments()));
         }
