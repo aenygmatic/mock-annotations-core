@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2013 Balazs Berkes.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,10 @@ public final class MockAnnotationValidationUtils {
         return string == null || string.isEmpty();
     }
 
+    public static boolean notEmpty(String string) {
+        return string != null && !string.isEmpty();
+    }
+
     public static boolean notNull(Object object) {
         return object != null;
     }
@@ -40,6 +44,6 @@ public final class MockAnnotationValidationUtils {
         }
     }
 
-    private MockAnnotationValidationUtils(){
+    private MockAnnotationValidationUtils() {
     }
 }

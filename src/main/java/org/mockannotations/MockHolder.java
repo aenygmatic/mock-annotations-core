@@ -16,6 +16,7 @@
 package org.mockannotations;
 
 import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -25,7 +26,7 @@ import org.mockannotations.utils.MockAnnotationReflectionUtils;
 /**
  * Wrapper class for a mock. It conatains the mock's name, the source field and
  * the mock itself.
- *
+ * <p>
  * @author Balazs Berkes
  */
 public class MockHolder {
@@ -38,6 +39,14 @@ public class MockHolder {
 
     public static MockHolder emptyMock() {
         return EMPTY_MOCKHOLDER;
+    }
+
+    public static MockHolder create(Object mock, Field source, String name) {
+        MockHolder mockHolder = new MockHolder();
+        mockHolder.setMock(mock);
+        mockHolder.setSourceField(source);
+        mockHolder.setName(name);
+        return mockHolder;
     }
 
     public void setSourceField(Field sourceField) {

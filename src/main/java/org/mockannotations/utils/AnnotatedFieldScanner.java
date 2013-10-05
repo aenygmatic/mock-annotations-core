@@ -43,7 +43,7 @@ public class AnnotatedFieldScanner<A extends Annotation> {
     /**
      * Provides a singleton instance of {@code AnnotatedFieldScanner} of {@code T}.
      * <p>
-     * @param <T> Type of annotation
+     * @param <T> type of annotation
      * @param annotation class of the scanned annotation.
      * @return the scanner for desired annotation
      */

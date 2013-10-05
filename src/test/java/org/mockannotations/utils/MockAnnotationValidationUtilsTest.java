@@ -66,6 +66,21 @@ public class MockAnnotationValidationUtilsTest {
     }
 
     @Test
+    public void testNotEmptyWithEmptyString() {
+        assertFalse(MockAnnotationValidationUtils.notEmpty(""));
+    }
+
+    @Test
+    public void testNotEmptyWithNull() {
+        assertFalse(MockAnnotationValidationUtils.notEmpty(null));
+    }
+
+    @Test
+    public void testNotEmptyWithString() {
+        assertTrue(MockAnnotationValidationUtils.notEmpty("String"));
+    }
+
+    @Test
     public void testAssertNotNullWithNotNull() {
         MockAnnotationValidationUtils.assertNotNull(new Object(), ASSERT_MESSAGE);
     }
