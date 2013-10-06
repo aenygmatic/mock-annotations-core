@@ -33,26 +33,26 @@ import java.util.Map;
  * <p>
  * @author Balazs Berkes
  */
-public class AnnotatedFieldScanner<A extends Annotation> {
+public class AnnotationScanner<A extends Annotation> {
 
-    private final static Map<Class<? extends Annotation>, AnnotatedFieldScanner<?>> scanners
-            = new HashMap<Class<? extends Annotation>, AnnotatedFieldScanner<?>>();
+    private final static Map<Class<? extends Annotation>, AnnotationScanner<?>> scanners
+            = new HashMap<Class<? extends Annotation>, AnnotationScanner<?>>();
 
     private final Class<A> annotation;
 
     /**
-     * Provides a singleton instance of {@code AnnotatedFieldScanner} of {@code T}.
+     * Provides a singleton instance of {@code AnnotationScanner} of {@literal T}.
      * <p>
      * @param <T> type of annotation
      * @param annotation class of the scanned annotation.
      * @return the scanner for desired annotation
      */
-    public static synchronized <T extends Annotation> AnnotatedFieldScanner<T> getScanner(Class<T> annotation) {
-        AnnotatedFieldScanner<T> scanner;
+    public static synchronized <T extends Annotation> AnnotationScanner<T> getScanner(Class<T> annotation) {
+        AnnotationScanner<T> scanner;
         if (scanners.containsKey(annotation)) {
-            scanner = (AnnotatedFieldScanner<T>) scanners.get(annotation);
+            scanner = (AnnotationScanner<T>) scanners.get(annotation);
         } else {
-            scanner = new AnnotatedFieldScanner<T>(annotation);
+            scanner = new AnnotationScanner<T>(annotation);
             scanners.put(annotation, scanner);
         }
         return scanner;
@@ -91,7 +91,7 @@ public class AnnotatedFieldScanner<A extends Annotation> {
         return annotatedFields;
     }
 
-    AnnotatedFieldScanner(Class<A> annotation) {
+    AnnotationScanner(Class<A> annotation) {
         this.annotation = annotation;
     }
 }

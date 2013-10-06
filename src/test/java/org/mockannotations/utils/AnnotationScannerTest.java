@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockannotations.utils.MockAnnotationReflectionUtils.getAllDeclaredFields;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,31 +27,30 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
-import org.junit.After;
-import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit test for {@link AnnotatedFieldScanner}.
+ * Unit test for {@link AnnotationScanner}.
  * <p>
  * @author Balazs Berkes
  */
-public class AnnotatedFieldScannerTest {
+public class AnnotationScannerTest {
 
     private Class<?> targetClass;
 
-    private AnnotatedFieldScanner<Marked> underTest;
+    private AnnotationScanner<Marked> underTest;
 
     @Before
     public void setUp() {
-        underTest = new AnnotatedFieldScanner<Marked>(Marked.class);
+        underTest = new AnnotationScanner<Marked>(Marked.class);
     }
 
     @Test
     public void testGetScannerShouldBeSingleton() {
-        AnnotatedFieldScanner<Marked> scanner1 = AnnotatedFieldScanner.getScanner(Marked.class);
-        AnnotatedFieldScanner<Marked> scanner2 = AnnotatedFieldScanner.getScanner(Marked.class);
+        AnnotationScanner<Marked> scanner1 = AnnotationScanner.getScanner(Marked.class);
+        AnnotationScanner<Marked> scanner2 = AnnotationScanner.getScanner(Marked.class);
 
         assertEquals(scanner1, scanner2);
     }
