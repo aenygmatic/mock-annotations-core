@@ -20,7 +20,7 @@
         <org-netbeans-modules-editor-indent.CodeStyle.project.expand-tabs>true</org-netbeans-modules-editor-indent.CodeStyle.project.expand-tabs>
         <org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>120</org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>
         <org-netbeans-modules-editor-indent.CodeStyle.project.text-line-wrap>none</org-netbeans-modules-editor-indent.CodeStyle.project.text-line-wrap>
-        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.importGroupsOrder>static java;static javax;static com;static org;static org.mockannotations;static *;java;javax;com;org;org.mockannotations;*</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.importGroupsOrder>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.importGroupsOrder>static java;static javax;static com;static org;static *;static org.mockannotations;java;javax;com;org;*;org.mockannotations</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.importGroupsOrder>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.separateStaticImports>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.separateStaticImports>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.blankLineAfterJavadocReturnTag>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.blankLineAfterJavadocReturnTag>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.preserveNewLinesInComments>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.preserveNewLinesInComments>
