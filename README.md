@@ -1,5 +1,10 @@
 mock-annotations-core
 =====================
 
+Support library for annotation driven mocking.
 
-Dependency injection framework for mocking.
+Contains:
+- Mock domain object
+- Debandency injection framework
+- Utiliy classes for reflection based operation and validation
+- Classes for dinamic instantiation (constructors with arguments included)
