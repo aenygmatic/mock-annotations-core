@@ -46,11 +46,18 @@ public class ClassInitializer {
      * parameter
      * @return a new instance of the given class.
      * <p>
-     * @throws EasyMockAnnotationInitializationException when initialization
-     * failed
+     * @throws InitializationException when initialization failed
      */
-    public Object initialize(Class<?> clazz, List<MockHolder> mocks) {
+    public Object initialize(Class<?> clazz, List<MockHolder> mocks) throws InitializationException {
         return new Initializer(clazz).withParameters(mocks).initialize();
+    }
+
+    public static class InitializationException extends RuntimeException {
+
+        public InitializationException(Class<?> clazz) {
+            super(String.format("I tried to create an instance of %s but it failed. Please provide an instance of the "
+                    + "class before initializing the annotations.", clazz));
+        }
     }
 
     private static class Initializer {
@@ -60,8 +67,10 @@ public class ClassInitializer {
         private MockSelector<Class<?>> byTypeSelector = ByTypeSelector.getSingleton();
         private List<MockHolder> mocks = Collections.emptyList();
         private List<Constructor<?>> constructors;
+        private Class<?> clazz;
 
         private Initializer(Class<?> clazz) {
+            this.clazz = clazz;
             constructors = Arrays.asList(clazz.getDeclaredConstructors());
             Collections.sort(constructors, CONSTRUCTOR_COMPARATOR);
         }
@@ -72,14 +81,14 @@ public class ClassInitializer {
         }
 
         private Object initialize() {
-            Object testedObject = initializeWithDefaultConstructor();
-            if (isNull(testedObject)) {
-                testedObject = initializeWithParameters();
+            Object objectToInitialize = initializeWithDefaultConstructor();
+            if (isNull(objectToInitialize)) {
+                objectToInitialize = initializeWithParameters();
             }
-            if (isNull(testedObject)) {
-                throwEasyMockAnnotationInitializationException();
+            if (isNull(objectToInitialize)) {
+                throw new InitializationException(clazz);
             }
-            return testedObject;
+            return objectToInitialize;
         }
 
         private Object initializeWithDefaultConstructor() {
@@ -101,7 +110,6 @@ public class ClassInitializer {
         private Object initializeWithParameters() {
             Object testedObject = null;
             for (Constructor<?> constructor : constructors) {
-                constructor.setAccessible(true);
                 testedObject = tryToCreateInstance(constructor);
                 if (notNull(testedObject)) {
                     break;
@@ -111,6 +119,7 @@ public class ClassInitializer {
         }
 
         private Object tryToCreateInstance(Constructor<?> constructor) {
+            constructor.setAccessible(true);
             Object instance = null;
             List<Object> parameterCandidates = selectParameterCandidates(constructor);
             if (!parameterCandidates.isEmpty()) {
@@ -139,11 +148,6 @@ public class ClassInitializer {
                 /* Ignoring any exception */
             }
             return newInstance;
-        }
-
-        private void throwEasyMockAnnotationInitializationException() {
-            throw new RuntimeException("I tried to create an instance of @Injected class"
-                    + " but it failed. Please provide an instance of the class before initializing the annotations.");
         }
     }
 

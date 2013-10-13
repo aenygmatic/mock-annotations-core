@@ -27,6 +27,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.mockannotations.ClassInitializer.InitializationException;
+
 /**
  * Unit test for {@link ClassInitializer}.
  * <p>
@@ -109,14 +111,14 @@ public class ClassInitializerTest {
         assertNull(actualClass.getObject());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = InitializationException.class)
     public void testInitializeShouldThrowExceptionWhenClassCannotBeInstantiated() {
         givenClassToInitialize(ExceptionConstructor.class);
 
         underTest.initialize(clazz, mocks);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = InitializationException.class)
     public void testInitializeShouldThrowExceptionWhenNoConstructorCanBeFullyInjected() {
         givenMocksToInject(object);
         givenClassToInitialize(MultiParamConstructorWithMoreVersion.class);

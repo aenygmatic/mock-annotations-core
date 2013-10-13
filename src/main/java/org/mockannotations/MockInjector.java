@@ -19,7 +19,7 @@ import static org.mockannotations.utils.MockAnnotationReflectionUtils.getAllDecl
 import static org.mockannotations.utils.MockAnnotationReflectionUtils.setField;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.mockannotations.selection.ByGenericSelector;
@@ -34,10 +34,16 @@ import org.mockannotations.selection.MockSelector;
  */
 public class MockInjector {
 
-    private MockSelector<String> byNameSelector = ByNameSelector.getSingleton();
-    private MockSelector<Class<?>> byTypeSelector = ByTypeSelector.getSingleton();
-    private MockSelector<Field> byGenericSelector = ByGenericSelector.getSingleton();
-    private List<MockSelector<?>> selectors = Arrays.asList(byTypeSelector, byGenericSelector, byNameSelector);
+    private static List<MockSelector<?>> selectors = initializeSelectors();
+
+    private static List<MockSelector<?>> initializeSelectors() {
+        List<MockSelector<?>> selectorChain = new LinkedList<MockSelector<?>>();
+        selectorChain.add(ByTypeSelector.getSingleton());
+        selectorChain.add(ByGenericSelector.getSingleton());
+        selectorChain.add(ByNameSelector.getSingleton());
+        return selectorChain;
+    }
+
     private List<MockHolder> mocks;
 
     public MockInjector(List<MockHolder> mocks) {
