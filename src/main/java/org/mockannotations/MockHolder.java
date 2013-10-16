@@ -24,7 +24,7 @@ import java.util.List;
 import org.mockannotations.utils.MockAnnotationReflectionUtils;
 
 /**
- * Wrapper class for a mock. It conatains the mock's name, the source field and
+ * Wrapper class for a mock. It contains the mock's name, the source field and
  * the mock itself.
  * <p>
  * @author Balazs Berkes

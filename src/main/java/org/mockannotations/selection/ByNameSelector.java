@@ -15,6 +15,8 @@
  */
 package org.mockannotations.selection;
 
+import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -46,7 +48,7 @@ public class ByNameSelector implements MockSelector<String> {
     }
 
     public static synchronized MockSelector<String> getSingleton() {
-        if (singleton == null) {
+        if (isNull(null)) {
             singleton = new ByNameSelector();
         }
         return singleton;

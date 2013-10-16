@@ -16,6 +16,7 @@
 package org.mockannotations.selection;
 
 import static org.mockannotations.utils.MockAnnotationReflectionUtils.getGenericParameters;
+import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -34,7 +35,7 @@ public class ByGenericSelector implements MockSelector<Field> {
     private static MockSelector<Field> singleton;
 
     public static synchronized MockSelector<Field> getSingleton() {
-        if (singleton == null) {
+        if (isNull(singleton)) {
             singleton = new ByGenericSelector();
         }
         return singleton;

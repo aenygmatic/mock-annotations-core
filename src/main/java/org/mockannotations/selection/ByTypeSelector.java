@@ -16,6 +16,7 @@
 package org.mockannotations.selection;
 
 import static org.mockannotations.utils.MockAnnotationReflectionUtils.getInheritanceDistance;
+import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -34,7 +35,7 @@ public class ByTypeSelector implements MockSelector<Class<?>> {
     private static MockSelector<Class<?>> singleton;
 
     public static synchronized MockSelector<Class<?>> getSingleton() {
-        if (singleton == null) {
+        if (isNull(null)) {
             singleton = new ByTypeSelector();
         }
         return singleton;
