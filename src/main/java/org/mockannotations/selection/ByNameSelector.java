@@ -119,7 +119,7 @@ public class ByNameSelector implements MockSelector<String> {
          * <p>
          * @param targetName name of the field in the class under test
          * @param mockSourceName name of the field in the test class
-         * @return retuns {@code true} if the names are matching to this rule otherwise false
+         * @return returns {@code true} if the names are matching to this rule otherwise false
          */
         boolean isMatching(String targetName, String mockSourceName);
     }

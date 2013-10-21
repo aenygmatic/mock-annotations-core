@@ -38,7 +38,7 @@ public class ClassInitializer {
     /**
      * Initialize an instance of the given class. If the class has multiple
      * constructors the constructor with the less parameter will be prefered,
-     * however if the initialization fails more parametrized constructor will be
+     * however if the initialization fails more parameterized constructor will be
      * the next.
      * <p>
      * @param clazz class to be initialized
