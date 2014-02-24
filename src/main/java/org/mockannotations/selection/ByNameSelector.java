@@ -18,8 +18,8 @@ package org.mockannotations.selection;
 import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -75,7 +75,7 @@ public class ByNameSelector implements MockSelector<String> {
      */
     @Override
     public List<MockHolder> select(String targetName, List<MockHolder> mocks) {
-        List<MockHolder> matchingMocks = new LinkedList<MockHolder>();
+        List<MockHolder> matchingMocks = new ArrayList<MockHolder>();
         MockHolder matchingMock = null;
 
         int highestPriority = strategies.size() + 1;

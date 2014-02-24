@@ -23,9 +23,9 @@ import static org.mockannotations.utils.MockAnnotationValidationUtils.notNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -124,7 +124,7 @@ public final class MockAnnotationReflectionUtils {
      * @return {@code List<Field>} of the class and all it predecessors
      */
     public static List<Field> getAllDeclaredFields(Class<?> clazz) {
-        List<Field> fields = new LinkedList<Field>();
+        List<Field> fields = new ArrayList<Field>();
         Class<?> predecessor = clazz;
 
         while (!predecessor.equals(Object.class)) {
@@ -146,7 +146,7 @@ public final class MockAnnotationReflectionUtils {
         Type genericType = field.getGenericType();
 
         if (genericType instanceof ParameterizedType) {
-            genericParameters = new LinkedList<Type>();
+            genericParameters = new ArrayList<Type>();
             ParameterizedType parameterizedType = (ParameterizedType) genericType;
             genericParameters.addAll(Arrays.asList(parameterizedType.getActualTypeArguments()));
         }

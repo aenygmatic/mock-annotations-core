@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -136,7 +136,7 @@ public class ClassInitializerTest {
     }
 
     private void givenMocksToInject(Object... mocks) {
-        this.mocks = new LinkedList<MockHolder>();
+        this.mocks = new ArrayList<MockHolder>();
         for (Object mock : mocks) {
             MockHolder mockHolder = new MockHolder();
             mockHolder.setMock(mock);

@@ -24,7 +24,7 @@ import static org.mockannotations.selection.ByNameSelector.NAME_EQUALS_IGNORE_CA
 import static org.mockannotations.selection.ByNameSelector.NAME_EQUALS_STRATEGY;
 
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -115,7 +115,7 @@ public class ByNameSelectorTest {
     }
 
     private void givenMockHolderFields() {
-        mocks = new LinkedList<MockHolder>();
+        mocks = new ArrayList<MockHolder>();
         when(mockHolder.getSourceName()).thenReturn("mockHolder");
         when(holder.getSourceName()).thenReturn("holder");
         when(lowercasemock.getSourceName()).thenReturn("lowercasemock");

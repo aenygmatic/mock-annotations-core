@@ -19,7 +19,7 @@ import static org.mockannotations.utils.MockAnnotationReflectionUtils.getInherit
 import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mockannotations.MockHolder;
@@ -48,7 +48,7 @@ public class ByTypeSelector implements MockSelector<Class<?>> {
 
     @Override
     public List<MockHolder> select(Class<?> selection, List<MockHolder> mocks) {
-        List<MockHolder> closestMocks = new LinkedList<MockHolder>();
+        List<MockHolder> closestMocks = new ArrayList<MockHolder>();
         int closestDist = MAX_DEPTH;
         for (MockHolder mock : mocks) {
             final int currentDist = getInheritanceDistance(mock.getMock(), selection);

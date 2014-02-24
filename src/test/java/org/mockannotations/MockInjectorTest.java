@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -108,7 +108,7 @@ public class MockInjectorTest {
     }
 
     private void givenMocks(Object... mocks) {
-        this.mocks = new LinkedList<MockHolder>();
+        this.mocks = new ArrayList<MockHolder>();
         for (Object mock : mocks) {
             MockHolder m = new MockHolder();
             m.setMock(mock);

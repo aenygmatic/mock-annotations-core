@@ -19,10 +19,10 @@ import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 import static org.mockannotations.utils.MockAnnotationValidationUtils.notNull;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.mockannotations.selection.ByTypeSelector;
@@ -129,7 +129,7 @@ public class ClassInitializer {
         }
 
         private List<Object> selectParameterCandidates(Constructor<?> constructor) {
-            List<Object> parameterMocks = new LinkedList<Object>();
+            List<Object> parameterMocks = new ArrayList<Object>();
             for (Class<?> parameterType : constructor.getParameterTypes()) {
                 List<MockHolder> matchingMocks = byTypeSelector.select(parameterType, mocks);
                 if (matchingMocks.isEmpty()) {

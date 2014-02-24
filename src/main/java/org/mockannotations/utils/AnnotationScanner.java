@@ -20,9 +20,9 @@ import static org.mockannotations.utils.MockAnnotationValidationUtils.notNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +80,7 @@ public class AnnotationScanner<A extends Annotation> {
      * @return list of fields which annotated with the scanner's annotation
      */
     public List<Field> scan(Class<?> clazz) {
-        List<Field> annotatedFields = new LinkedList<Field>();
+        List<Field> annotatedFields = new ArrayList<Field>();
 
         for (Field field : getAllDeclaredFields(clazz)) {
             if (field.isAnnotationPresent(annotation)) {

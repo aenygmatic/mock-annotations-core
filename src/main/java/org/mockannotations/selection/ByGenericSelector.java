@@ -20,7 +20,7 @@ import static org.mockannotations.utils.MockAnnotationValidationUtils.isNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mockannotations.MockHolder;
@@ -48,7 +48,7 @@ public class ByGenericSelector implements MockSelector<Field> {
 
     @Override
     public List<MockHolder> select(Field targetField, List<MockHolder> mocks) {
-        List<MockHolder> matchingMocks = new LinkedList<MockHolder>();
+        List<MockHolder> matchingMocks = new ArrayList<MockHolder>();
         List<Type> targetGenerics = getGenericParameters(targetField);
         for (MockHolder mockHolder : mocks) {
             List<Type> sourceGenerics = mockHolder.getGenericParameters();
