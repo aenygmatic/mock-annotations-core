@@ -19,8 +19,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -158,6 +161,48 @@ public class MockAnnotationReflectionUtilsTest {
         assertNull(MockAnnotationReflectionUtils.getField(field, null));
     }
 
+    @Test
+    public void testGetAllSetterShouldReturnAllPublicSetter() {
+        List<Method> setters = MockAnnotationReflectionUtils.getAllSetters(Clazz.class);
+
+        assertContainMethodNames(setters, "setSuperClassField", "setClassField");
+    }
+
+    @Test
+    public void testGetAllSetterShouldNotReturnPrivateSetters() {
+        List<Method> setters = MockAnnotationReflectionUtils.getAllSetters(SubClass.class);
+
+        assertNotContainsMethodName(setters, "setSubClassField");
+    }
+
+    @Test
+    public void testGetAllSetterShouldNotReturnStaticSetters() {
+        List<Method> setters = MockAnnotationReflectionUtils.getAllSetters(SubClass.class);
+
+        assertNotContainsMethodName(setters, "setField");
+    }
+
+    private void assertNotContainsMethodName(List<Method> setters, String name) {
+        for (Method setter : setters) {
+            if (setter.getName().equals(name)) {
+                fail("Contains method with name " + name + " but it should not!");
+            }
+        }
+    }
+
+    private void assertContainMethodNames(List<Method> setters, String... names) {
+        for (String name : names) {
+            boolean found = false;
+            for (Method s : setters) {
+                if (name.equals(s.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue("No method found with name " + name, found);
+        }
+    }
+
     private void cleanUpFields() {
         instance = null;
         clazz = null;
@@ -175,10 +220,10 @@ public class MockAnnotationReflectionUtilsTest {
     }
 
     private void givenField(String name) throws Exception {
-        for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.getName().equals(name)) {
-                field.setAccessible(true);
-                this.field = field;
+        for (Field f : this.getClass().getDeclaredFields()) {
+            if (f.getName().equals(name)) {
+                f.setAccessible(true);
+                this.field = f;
                 break;
             }
         }
@@ -188,14 +233,29 @@ public class MockAnnotationReflectionUtilsTest {
 class SuperClass {
 
     String superClassField;
+
+    public void setSuperClassField(String superClassField) {
+        this.superClassField = superClassField;
+    }
 }
 
 class Clazz extends SuperClass {
 
     String classField;
+
+    public void setClassField(String classField) {
+        this.classField = classField;
+    }
 }
 
 class SubClass extends Clazz {
 
     String subClassField;
+
+    private void setSubClassField(String subClassField) {
+        this.subClassField = subClassField;
+    }
+
+    public static void setField(String string) {
+    }
 }

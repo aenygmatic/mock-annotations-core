@@ -16,11 +16,13 @@
 package org.mockannotations.utils;
 
 import static java.lang.reflect.Modifier.isFinal;
+import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 
 import static org.mockannotations.utils.MockAnnotationValidationUtils.notNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -117,8 +119,7 @@ public final class MockAnnotationReflectionUtils {
     }
 
     /**
-     * Scans for the class and all its predecessors (up to {@code Object}) for
-     * fields.
+     * Scans the class and all its predecessors (up to {@code Object}) for fields.
      * <p>
      * @param clazz first level class to scan
      * @return {@code List<Field>} of the class and all it predecessors
@@ -133,6 +134,28 @@ public final class MockAnnotationReflectionUtils {
         }
 
         return fields;
+    }
+
+    /**
+     * Scans the class for its setter methods. Setter method must be public and non-static.
+     * <p>
+     * @param clazz the class to scan
+     * @return {@code List<Method>} of the class which contains its setters
+     */
+    public static List<Method> getAllSetters(Class<?> clazz) {
+        List<Method> setters = new ArrayList<Method>();
+
+        for (Method method : clazz.getMethods()) {
+            if (isPublic(method.getModifiers()) && isSetter(method)) {
+                setters.add(method);
+            }
+        }
+
+        return setters;
+    }
+
+    private static boolean isSetter(Method m) {
+        return m.getName().startsWith("set");
     }
 
     /**
