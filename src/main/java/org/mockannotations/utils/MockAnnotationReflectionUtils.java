@@ -49,12 +49,12 @@ public final class MockAnnotationReflectionUtils {
     public static void setField(Field field, Object target, Object value) throws UnableToWriteFieldException {
         if (value != null) {
             if (!isStatic(field.getModifiers()) && !isFinal(field.getModifiers())) {
-                doSetField(field, target, value);
+                setFieldWithRuntimeException(field, target, value);
             }
         }
     }
 
-    private static void doSetField(Field field, Object target, Object value) throws UnableToWriteFieldException, SecurityException {
+    private static void setFieldWithRuntimeException(Field field, Object target, Object value) throws UnableToWriteFieldException, SecurityException {
         field.setAccessible(true);
         try {
             field.set(target, value);
@@ -75,12 +75,12 @@ public final class MockAnnotationReflectionUtils {
     public static Object getField(Field field, Object target) throws UnableToReadFieldException {
         Object fieldValue = null;
         if (notNull(target)) {
-            fieldValue = doGetField(field, target);
+            fieldValue = getFieldWithRuntimeException(field, target);
         }
         return fieldValue;
     }
 
-    private static Object doGetField(Field field, Object target) throws UnableToReadFieldException, SecurityException {
+    private static Object getFieldWithRuntimeException(Field field, Object target) throws UnableToReadFieldException, SecurityException {
         field.setAccessible(true);
         try {
             return field.get(target);
@@ -146,7 +146,7 @@ public final class MockAnnotationReflectionUtils {
         List<Method> setters = new ArrayList<Method>();
 
         for (Method method : clazz.getMethods()) {
-            if (isPublic(method.getModifiers()) && isSetter(method)) {
+            if (isSetter(method)) {
                 setters.add(method);
             }
         }
@@ -155,7 +155,7 @@ public final class MockAnnotationReflectionUtils {
     }
 
     private static boolean isSetter(Method m) {
-        return m.getName().startsWith("set");
+        return isPublic(m.getModifiers()) && !isStatic(m.getModifiers()) && m.getName().startsWith("set");
     }
 
     /**
