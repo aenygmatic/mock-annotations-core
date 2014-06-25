@@ -5,7 +5,7 @@
 
   <groupId>mock-annotations</groupId>
   <artifactId>mock-annotations-core</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
 
   <name>mock-annotations-core</name>

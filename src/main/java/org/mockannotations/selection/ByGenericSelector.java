@@ -30,11 +30,11 @@ import org.mockannotations.MockHolder;
  * <p>
  * @author Balazs Berkes
  */
-public class ByGenericSelector implements MockSelector<Field> {
+public class ByGenericSelector implements MockSelector<List<Type>> {
 
-    private static MockSelector<Field> singleton;
+    private static MockSelector<List<Type>> singleton;
 
-    public static synchronized MockSelector<Field> getSingleton() {
+    public static synchronized MockSelector<List<Type>> getSingleton() {
         if (isNull(singleton)) {
             singleton = new ByGenericSelector();
         }
@@ -43,13 +43,12 @@ public class ByGenericSelector implements MockSelector<Field> {
 
     @Override
     public List<MockHolder> selectByField(Field selection, List<MockHolder> mocks) {
-        return select(selection, mocks);
+        return select(getGenericParameters(selection), mocks);
     }
 
     @Override
-    public List<MockHolder> select(Field targetField, List<MockHolder> mocks) {
+    public List<MockHolder> select(List<Type> targetGenerics, List<MockHolder> mocks) {
         List<MockHolder> matchingMocks = new ArrayList<MockHolder>();
-        List<Type> targetGenerics = getGenericParameters(targetField);
         for (MockHolder mockHolder : mocks) {
             List<Type> sourceGenerics = mockHolder.getGenericParameters();
             if (genericParametersAreMatching(targetGenerics, sourceGenerics)) {

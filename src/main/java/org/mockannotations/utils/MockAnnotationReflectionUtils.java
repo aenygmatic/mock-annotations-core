@@ -49,12 +49,12 @@ public final class MockAnnotationReflectionUtils {
     public static void setField(Field field, Object target, Object value) throws UnableToWriteFieldException {
         if (value != null) {
             if (!isStatic(field.getModifiers()) && !isFinal(field.getModifiers())) {
-                setFieldWithRuntimeException(field, target, value);
+                doSetField(field, target, value);
             }
         }
     }
 
-    private static void setFieldWithRuntimeException(Field field, Object target, Object value) throws UnableToWriteFieldException, SecurityException {
+    private static void doSetField(Field field, Object target, Object value) throws UnableToWriteFieldException, SecurityException {
         field.setAccessible(true);
         try {
             field.set(target, value);
@@ -155,7 +155,11 @@ public final class MockAnnotationReflectionUtils {
     }
 
     private static boolean isSetter(Method m) {
-        return isPublic(m.getModifiers()) && !isStatic(m.getModifiers()) && m.getName().startsWith("set");
+        return isPublic(m.getModifiers()) && !isStatic(m.getModifiers()) && hasOneParameter(m) && m.getName().startsWith("set");
+    }
+
+    private static boolean hasOneParameter(Method m) {
+        return m.getParameterTypes().length == 1;
     }
 
     /**
@@ -165,16 +169,33 @@ public final class MockAnnotationReflectionUtils {
      * @return the generic parameters
      */
     public static List<Type> getGenericParameters(Field field) {
-        List<Type> genericParameters = Collections.emptyList();
-        Type genericType = field.getGenericType();
+        return getGenericParameters(field.getGenericType());
+    }
 
-        if (genericType instanceof ParameterizedType) {
+    /**
+     * Returns the generic parameters of the given type.
+     * <p>
+     * @param type field to be scanned
+     * @return the generic parameters
+     */
+    public static List<Type> getGenericParameters(Type type) {
+        List<Type> genericParameters = Collections.emptyList();
+
+        if (type instanceof ParameterizedType) {
             genericParameters = new ArrayList<Type>();
-            ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            ParameterizedType parameterizedType = (ParameterizedType) type;
             genericParameters.addAll(Arrays.asList(parameterizedType.getActualTypeArguments()));
         }
 
         return genericParameters;
+    }
+
+    public static void setBySetter(Method setter, Object target, Object value) {
+        try {
+            setter.invoke(target, value);
+        } catch (Exception ex) {
+            throw new UnableToInvokeSetterException(setter, ex);
+        }
     }
 
     public static class UnableToWriteFieldException extends RuntimeException {
@@ -188,6 +209,13 @@ public final class MockAnnotationReflectionUtils {
 
         public UnableToReadFieldException(Field field, Throwable cause) {
             super(String.format("Cannot get value of field '%s'", field), cause);
+        }
+    }
+
+    public static class UnableToInvokeSetterException extends RuntimeException {
+
+        public UnableToInvokeSetterException(Method setter, Throwable cause) {
+            super(String.format("Cannot set field by setter '%s'", setter), cause);
         }
     }
 
